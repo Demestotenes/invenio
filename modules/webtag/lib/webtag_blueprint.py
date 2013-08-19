@@ -178,7 +178,7 @@ def tokenize(id_bibrec, q):
 
     response_tags = []
     for tag in tags.all():
-        tag_json = tag.serializable_fields(['id', 'name'])
+        tag_json = tag.serializable_fields(set(['id', 'name']))
         response_tags.append(tag_json)
 
         # Check if it matches the search name
@@ -204,7 +204,7 @@ def editor(id_bibrec):
 
     tags_json = []
     for tag in tags.all():
-        fields = tag.serializable_fields(['id', 'name'])
+        fields = tag.serializable_fields(set(['id', 'name']))
         fields['can_remove'] = True
         tags_json.append(fields)
 

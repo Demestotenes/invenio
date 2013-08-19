@@ -82,11 +82,11 @@ CFG_WEBTAG_ACCESS_LEVELS = \
     dict((v, k) for (k, v) in CFG_WEBTAG_ACCESS_NAMES.iteritems())
 
 CFG_WEBTAG_ACCESS_RIGHTS = {
-    0: [],
-    10: ['view'],
-    20: ['view', 'add'],
-    30: ['view', 'add', 'remove'],
-    40: ['view', 'add', 'remove', 'edit'],
+    0: set([]),
+    10: set(['view']),
+    20: set(['view', 'add']),
+    30: set(['view', 'add', 'remove']),
+    40: set(['view', 'add', 'remove', 'edit']),
 }
 
 CFG_WEBTAG_ACCESS_OWNER_DEFAULT = CFG_WEBTAG_ACCESS_LEVELS['Manage']

@@ -49,7 +49,7 @@ import re
 class Serializable(object):
     """Class which can present its fields as dict for json serialization"""
     # Set of fields which are to be serialized
-    __public__ = None
+    __public__ = set([])
 
     def _serialize_field(self, value):
         """ Converts value of a field to format suitable for json """
@@ -94,7 +94,7 @@ class Serializable(object):
 class WtgTAG(db.Model, Serializable):
     """ Represents a Tag """
     __tablename__ = 'wtgTAG'
-    __public__ = ['id', 'name', 'id_owner']
+    __public__ = set(['id', 'name', 'id_owner'])
 
     # Primary key
     id = db.Column(db.Integer(15, unsigned=True),
@@ -206,7 +206,7 @@ class WtgTAGRecord(db.Model, Serializable):
     """ Represents a connection between Tag and Record """
 
     __tablename__ = 'wtgTAG_bibrec'
-    __public__ = ['id_tag', 'id_bibrec', 'date_added']
+    __public__ = set(['id_tag', 'id_bibrec', 'date_added'])
 
     # tagTAG.id
     id_tag = db.Column(db.Integer(15, unsigned=True),
@@ -257,7 +257,7 @@ class WtgTAGUsergroup(db.Model, Serializable):
     """ Represents access rights of the group concerning the tag """
 
     __tablename__ = 'wtgTAG_usergroup'
-    __public__ = ['id_tag', 'id_usergroup', 'group_access_rights']
+    __public__ = set(['id_tag', 'id_usergroup', 'group_access_rights'])
 
     # tagTAG.id
     id_tag = db.Column(db.Integer(15, unsigned=True),
