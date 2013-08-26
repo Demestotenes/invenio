@@ -50,18 +50,20 @@ from invenio.webtag_forms import \
     validate_user_owns_tag, \
     validators
 
-
 from invenio.websearch_blueprint import response_formated_records
 
-blueprint = InvenioBlueprint('webtag',
-                             __name__,
-                             url_prefix='/yourtags',
-                             config='invenio.webtag_config',
-                             menubuilder=[('personalize.tags',
-                                          _('Your Tags'),
-                                          'webtag.display_cloud')],
-                             breadcrumbs=[(_('Your Account'), 'youraccount.edit'),
-                                          (_('Your Tags'), 'webtag.display_cloud')])
+blueprint = InvenioBlueprint(
+    'webtag',
+    __name__,
+    url_prefix='/yourtags',
+    config='invenio.webtag_config',
+    menubuilder=[
+        ('personalize.tags',
+         ('Your Tags'),
+         'webtag.display_cloud')],
+    breadcrumbs=[
+        (_('Your Account'), 'youraccount.edit'),
+        (_('Your Tags'), 'webtag.display_cloud')])
 
 
 @blueprint.route('/', methods=['GET', 'POST'])
@@ -93,13 +95,15 @@ def display_cloud():
 
     for tag in tags:
         size = min_size + \
-                   float(max_size - min_size) * \
-                   float(tag.record_count - min_count) / difference
+            float(max_size - min_size) * \
+            float(tag.record_count - min_count) / difference
 
         tag.css_size = str(size*100)
 
-    return dict(user_tags=tags,
-                display_mode='cloud')
+    return dict(
+        user_tags=tags,
+        display_mode='cloud')
+
 
 @blueprint.route('/display/list', methods=['GET', 'POST'])
 @blueprint.invenio_authenticated
@@ -123,8 +127,9 @@ def display_list(sort_by, order):
     if order == 'desc':
         tags.reverse()
 
-    return dict(user_tags=tags,
-                display_mode='list')
+    return dict(
+        user_tags=tags,
+        display_mode='list')
 
 
 @blueprint.route('/tag/<int:id_tag>/records', methods=['GET', 'POST'])
@@ -151,9 +156,11 @@ def tag_details(id_tag):
         flash(_('There are no documents tagged with ') + tag.name)
         return redirect(url_for('.display_cloud'))
 
-    return response_formated_records([bibrec.id for bibrec in tag.records],
-                              Collection.query.get(1),
-                              'hb')
+    return response_formated_records(
+        [bibrec.id for bibrec in tag.records],
+        Collection.query.get(1),
+        'hb')
+
 
 @blueprint.route('/tokenize/<int:id_bibrec>', methods=['GET', 'POST'])
 @blueprint.invenio_authenticated
@@ -167,7 +174,7 @@ def tokenize(id_bibrec, q):
 
     tags = WtgTAG.query\
         .filter_by(id_user=id_user)\
-        .filter(WtgTAG.name.like('%'+ q +'%'))\
+        .filter(WtgTAG.name.like('%' + q + '%'))\
         .filter(db.not_(WtgTAG.records.contains(record)))\
         .order_by(WtgTAG.name)
 
@@ -200,6 +207,7 @@ def tokenize(id_bibrec, q):
 
     return jsonify(dict(results=response_tags, query=q))
 
+
 @blueprint.route('/record/<int:id_bibrec>/edit', methods=['GET', 'POST'])
 @blueprint.invenio_authenticated
 def editor(id_bibrec):
@@ -218,13 +226,17 @@ def editor(id_bibrec):
 
     # invenio_templated cannot be used,
     # because this view is requested using AJAX
-    return render_template('webtag_editor.html', id_bibrec=id_bibrec,
-                                                 record_tags=tags_json)
+    return render_template(
+        'webtag_editor.html',
+        id_bibrec=id_bibrec,
+        record_tags=tags_json)
+
 
 #Temporary solution to call validators, we need a better one
 class Field(object):
     def __init__(self, attr, value):
         setattr(self, attr, value)
+
 
 @blueprint.route('/delete', methods=['GET', 'POST'])
 @blueprint.invenio_authenticated
@@ -244,11 +256,17 @@ def delete():
         except validators.ValidationError, ex:
             flash(ex.message, 'error')
 
-    db.session.query(WtgTAG)\
-        .filter(WtgTAG.id.in_(id_tags))\
-        .delete(synchronize_session=False)
+    for id_tag in id_tags:
+        tag = WtgTAG.query.get(id_tag)
+        db.session.delete(tag)
 
-    flash(_('Successfully deleted tags.'),'success')
+    db.session.commit()
+
+    #WtgTAG.query\
+    #    .filter(WtgTAG.id.in_(id_tags))\
+    #    .delete(synchronize_session=False)
+
+    flash(_('Successfully deleted tags.'), 'success')
 
     return redirect(url_for('.display_list'))
 
@@ -265,6 +283,7 @@ def delete():
 #   else:
 #       errors = dict of errors from form
 
+
 @blueprint.route('/create', methods=['GET', 'POST'])
 @blueprint.invenio_authenticated
 @blueprint.invenio_set_breadcrumb(_("New tag"))
@@ -274,12 +293,12 @@ def create():
     response = {}
     response['action'] = 'create'
 
-    user = db.session.query(User).get(current_user.get_id())
+    user = User.query.get(current_user.get_id())
 
     form = CreateTagForm(request.values, csrf_enabled=False)
 
     if form.validate_on_submit() or\
-       (request.is_xhr and form.validate()) :
+       (request.is_xhr and form.validate()):
         new_tag = WtgTAG()
         form.populate_obj(new_tag)
         new_tag.user = user
@@ -313,6 +332,7 @@ def create():
         else:
             return dict(form=form)
 
+
 @blueprint.route('/attach', methods=['GET', 'POST'])
 @blueprint.invenio_authenticated
 def attach():
@@ -341,6 +361,7 @@ def attach():
 
     return jsonify(response)
 
+
 @blueprint.route('/detach', methods=['GET', 'POST'])
 @blueprint.invenio_authenticated
 def detach():
@@ -352,9 +373,9 @@ def detach():
     form = DetachTagForm(request.values, csrf_enabled=False)
 
     if form.validate():
-        association = db.session.query(WtgTAGRecord)\
-                      .filter_by(id_tag = form.data['id_tag'],
-                                 id_bibrec = form.data['id_bibrec']).first()
+        association = db.session.query(WtgTAGRecord).filter_by(
+            id_tag=form.data['id_tag'],
+            id_bibrec=form.data['id_bibrec']).first()
         if association:
             db.session.delete(association)
             db.session.commit()
