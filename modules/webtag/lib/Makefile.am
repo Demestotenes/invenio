@@ -27,7 +27,9 @@ pylib_DATA = \
     webtag_regression_tests.py \
     webtag_unit_tests.py \
     webtag_user_settings.py \
-    webtag_validators.py
+    webtag_validators.py \
+    webtag_signals.py \
+    webtag_receivers.py
 
 jsdir=$(localstatedir)/www/js
 
