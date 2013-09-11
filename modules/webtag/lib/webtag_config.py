@@ -92,8 +92,17 @@ CFG_WEBTAG_ACCESS_RIGHTS = {
 CFG_WEBTAG_ACCESS_OWNER_DEFAULT = CFG_WEBTAG_ACCESS_LEVELS['Manage']
 
 #
-# Access Rights
+# User settings
 #
+
+CFG_WEBTAG_SETTINGS_SHOW = '1'
+CFG_WEBTAG_SETTINGS_HIDE = '0'
+
+CFG_WEBTAG_DEFAULT_USER_SETTINGS = {
+    'display_tags_private': CFG_WEBTAG_SETTINGS_SHOW,
+    'display_tags_group': CFG_WEBTAG_SETTINGS_SHOW,
+    'display_tags_public': CFG_WEBTAG_SETTINGS_SHOW,
+}
 
 class WebTagNameTakenException(Exception):
     pass

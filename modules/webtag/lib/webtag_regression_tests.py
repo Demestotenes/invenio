@@ -24,9 +24,14 @@ from invenio.testutils import \
     InvenioTestCase, \
     make_test_suite, \
     run_test_suite
+from mechanize import Browser
 
+from invenio.config import CFG_SITE_SECURE_URL
+
+cfg = lazy_import('invenio.webtag_config')
 webtag_model = lazy_import('invenio.webtag_model')
 db = lazy_import('invenio.sqlalchemyutils:db')
+
 
 class WebTagDeletionTest(InvenioTestCase):
     """Check if deleting w WtgTAG clears all associations"""
@@ -64,9 +69,46 @@ class WebTagDeletionTest(InvenioTestCase):
         self.assertEqual(0, associations_left)
 
 
+class WebTagUserSettingsTest(InvenioTestCase):
+    """Check if the preferences for WebTag are editable and properly saved"""
+
+    def login(self, username, password):
+        browser = Browser()
+        browser.open(CFG_SITE_SECURE_URL + "/youraccount/login/")
+        browser.select_form(nr=0)
+        browser['nickname'] = username
+        browser['password'] = password
+
+        try:
+            browser.submit()
+        except Exception, e:
+            self.fail("Cannot login with nickname={name} password={pw}."\
+                .format(name=username, pw=password))
+
+        return browser
+
+    def test_preferences_edition(self):
+        browser = self.login('admin', '')
+
+        browser.open(CFG_SITE_SECURE_URL + "/youraccount/edit/WebTagSettings")
+        browser.select_form(nr=0)
+        browser['display_tags_private'] = '0'
+        browser.submit()
+
+        browser.open(CFG_SITE_SECURE_URL + "/youraccount/edit/WebTagSettings")
+        browser.select_form(nr=0)
+
+        if browser['display_tags_private'] != '0':
+            self.fail("Setting 'display_tags_private' saved as False, but is still True")
+
+        browser['display_tags_private'] = '1'
+        browser.submit()
+
+
 # Running tests
 TEST_SUITE = make_test_suite(
-    WebTagDeletionTest
+    WebTagDeletionTest,
+    WebTagUserSettingsTest
 )
 
 if __name__ == "__main__":

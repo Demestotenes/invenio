@@ -24,7 +24,7 @@ from flask import url_for
 from invenio.jinja2utils import render_template_to_string
 from invenio.webinterface_handler_flask_utils import _
 from invenio.webuser_flask import current_user
-from invenio.settings import Settings, UserSettingsStorage
+from invenio.settings import Settings, UserSettingsAttributeStorage
 
 # Models
 from invenio.sqlalchemyutils import db
@@ -34,26 +34,35 @@ from invenio.webtag_model import WtgTAG, WtgTAGRecord
 from invenio.websession_model import User
 from invenio.bibedit_model import Bibrec
 
+# Form
+from invenio.webtag_forms import WebTagUserSettingsForm
+
+
 class WebTagSettings(Settings):
 
-    keys = []
-    #form_builder = WebBasketUserSettingsForm
-    storage_builder = UserSettingsStorage
+    keys = [
+        'display_tags_private',
+        'display_tags_group',
+        'display_tags_public']
+    form_builder = WebTagUserSettingsForm
+    storage_builder = UserSettingsAttributeStorage('webtag')
 
     def __init__(self):
         super(WebTagSettings, self).__init__()
         self.icon = 'tags'
         self.title = _('Tags')
         self.view = url_for('webtag.display_cloud')
+        self.edit = url_for('webaccount.edit', name=self.name)
 
     def widget(self):
         user = User.query.get(current_user.get_id())
         tag_count = user.tags_query.count()
 
         record_count = Bibrec.query.join(WtgTAGRecord).join(WtgTAG)\
-                       .filter(WtgTAG.user == user).count()
+            .filter(WtgTAG.user == user).count()
 
-        return render_template_to_string('webtag_user_settings.html',
+        return render_template_to_string(
+            'webtag_user_settings.html',
             tag_count=tag_count,
             record_count=record_count)
 

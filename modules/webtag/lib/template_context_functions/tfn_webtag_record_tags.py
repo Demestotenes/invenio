@@ -19,6 +19,11 @@
 
 """WebTag List of tags in document view"""
 
+# Configs
+from invenio.webtag_config import \
+    CFG_WEBTAG_DEFAULT_USER_SETTINGS, \
+    CFG_WEBTAG_SETTINGS_SHOW
+
 # Flask
 from flask import url_for
 from invenio.jinja2utils import render_template_to_string
@@ -32,6 +37,7 @@ from invenio.webtag_model import \
 from invenio.websession_model import User
 from invenio.bibedit_model import Bibrec
 
+
 def template_context_function(id_bibrec, id_user):
     """
     @param id_bibrec ID of record
@@ -40,12 +46,33 @@ def template_context_function(id_bibrec, id_user):
     """
 
     if id_user and id_bibrec:
-        tags = WtgTAG.query\
-           .join(WtgTAGRecord)\
-           .filter(WtgTAG.id_user==id_user,
-                   WtgTAGRecord.id_bibrec == id_bibrec)\
-           .order_by(WtgTAG.name)\
-           .all()
+        # Get user settings:
+        user = User.query.get(id_user)
+        user_settings = user.settings.get(
+            'webtag', CFG_WEBTAG_DEFAULT_USER_SETTINGS)
+
+        # Collect tags
+        tags = []
+
+        # Private tags
+        if user_settings.get(
+            'display_tags_private',
+            CFG_WEBTAG_SETTINGS_SHOW) == CFG_WEBTAG_SETTINGS_SHOW:
+
+            tags += WtgTAG.query\
+                .join(WtgTAGRecord)\
+                .filter(
+                    WtgTAG.id_user == id_user,
+                    WtgTAGRecord.id_bibrec == id_bibrec)\
+                .order_by(WtgTAG.name)\
+                .all()
+
+        # Group tags
+        #if user_settings.get('display_tags_group', True):
+
+        # Public tags
+        #if user_settings.get('display_tags_public', True):
+
         return render_template_to_string('webtag_record.html',
                                          id_bibrec=id_bibrec,
                                          record_tags=tags)

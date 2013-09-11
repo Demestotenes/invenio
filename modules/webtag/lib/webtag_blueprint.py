@@ -21,11 +21,14 @@
 
 # Configs
 from invenio.config import CFG_SITE_LANG
+from invenio.webtag_config import \
+    CFG_WEBTAG_DEFAULT_USER_SETTINGS
 
 # Flask
 from flask import render_template, request, flash, redirect, url_for, jsonify
 from invenio.webinterface_handler_flask_utils import _, InvenioBlueprint
 from invenio.webuser_flask import current_user
+from werkzeug.local import LocalProxy
 
 # Models
 from invenio.sqlalchemyutils import db
@@ -52,6 +55,11 @@ from invenio.webtag_forms import \
 
 from invenio.websearch_blueprint import response_formated_records
 
+# Uset settings
+user_settings = LocalProxy(lambda: \
+    current_user['settings'].get('webtag', CFG_WEBTAG_DEFAULT_USER_SETTINGS))
+
+# Blueprint
 blueprint = InvenioBlueprint(
     'webtag',
     __name__,

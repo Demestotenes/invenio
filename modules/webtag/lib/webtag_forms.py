@@ -20,10 +20,9 @@
 """WebTag Forms"""
 
 from invenio.webtag_config import \
-    CFG_WEBTAG_LAST_MYSQL_CHARACTER
-
-from invenio.webtag_config import \
-    CFG_WEBTAG_NAME_MAX_LENGTH
+    CFG_WEBTAG_NAME_MAX_LENGTH, \
+    CFG_WEBTAG_LAST_MYSQL_CHARACTER, \
+    CFG_WEBTAG_DEFAULT_USER_SETTINGS
 
 from invenio.webinterface_handler_flask_utils import _
 
@@ -32,6 +31,8 @@ from invenio.webuser_flask import current_user
 
 from wtforms import \
     IntegerField, \
+    BooleanField, \
+    SelectField, \
     HiddenField, \
     TextField, \
     SelectMultipleField, \
@@ -45,7 +46,6 @@ from invenio.webtag_model import \
     wash_tag_silent, \
     wash_tag_blocking
 from invenio.bibedit_model import Bibrec
-
 from invenio.search_engine import check_user_can_view_record
 
 
@@ -66,8 +66,8 @@ def validate_tag_name(dummy_form, field):
                 _('The name must contain valid characters.'))
 
         if len(suggested_silent) > CFG_WEBTAG_NAME_MAX_LENGTH:
-            raise validators.ValidationError( _('The name cannot exeed ') \
-                  + str(CFG_WEBTAG_NAME_MAX_LENGTH) + _(' characters.'))
+            raise validators.ValidationError( _('The name cannot exeed ')
+                + str(CFG_WEBTAG_NAME_MAX_LENGTH) + _(' characters.'))
 
         if max(ord(letter) for letter in suggested_silent) \
            > CFG_WEBTAG_LAST_MYSQL_CHARACTER:
@@ -204,3 +204,35 @@ class DetachTagForm(InvenioBaseForm):
                 [validators.Required(),
                  validate_bibrec_exists,
                  validate_user_can_see_bibrec])
+
+
+# class WebTagUserSettingsForm(InvenioBaseForm):
+#     """User's personal settings influencing WebTag module"""
+
+#     display_tags_private = BooleanField(
+#         _('Show private tags'),
+#         default=True)
+
+#     display_tags_group = BooleanField(
+#         _('Show group tags'),
+#         default=CFG_WEBTAG_DEFAULT_USER_SETTINGS['display_tags_group'])
+
+#     display_tags_public = BooleanField(
+#         _('Show public tags'),
+#         default=CFG_WEBTAG_DEFAULT_USER_SETTINGS['display_tags_public'])
+
+class WebTagUserSettingsForm(InvenioBaseForm):
+    """User's personal settings influencing WebTag module"""
+
+    display_tags_private = SelectField(
+        _('Private tags'),
+        choices=[('1', _('Show')), ('0', _('Hide'))])
+
+    display_tags_group = SelectField(
+        _('Group tags'),
+        choices=[('1', _('Show')), ('0', _('Hide'))])
+
+    display_tags_public = SelectField(
+        _('Public tags'),
+        choices=[('1', _('Show')), ('0', _('Hide'))])
+
