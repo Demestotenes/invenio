@@ -45,6 +45,8 @@ from invenio.websearchadminlib import get_detailed_page_tabs,\
 from invenio.search_engine_utils import get_fieldvalues
 from invenio.bibrank_downloads_similarity import register_page_view_event
 
+from invenio.websearch_signals import record_viewed
+
 blueprint = InvenioBlueprint('record', __name__, url_prefix="/"+CFG_SITE_RECORD,
                              config='invenio.search_engine_config',
                              breadcrumbs=[])
@@ -150,8 +152,17 @@ def request_record(f):
 @request_record
 def metadata(recid, of='hd'):
     register_page_view_event(recid, current_user.get_id(), str(request.remote_addr))
-    if get_output_format_content_type(of) != 'text/html':
+
+	if get_output_format_content_type(of) != 'text/html':
         return redirect('/%s/%d/export/%s' % (CFG_SITE_RECORD, recid, of))
+
+    # Send the signal 'document viewed'
+    record_viewed.send(
+        current_app._get_current_object(),
+        recid=recid,
+        id_user=current_user.get_id(),
+        request=request)
+
     return render_template('record_metadata.html', of=of)
 
 
