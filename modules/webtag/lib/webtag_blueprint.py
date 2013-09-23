@@ -56,7 +56,7 @@ from invenio.webtag_forms import \
 from invenio.websearch_blueprint import response_formated_records
 
 # Uset settings
-user_settings = LocalProxy(lambda: \
+user_settings = LocalProxy(lambda:
     current_user['settings'].get('webtag', CFG_WEBTAG_DEFAULT_USER_SETTINGS))
 
 # Blueprint
@@ -140,34 +140,34 @@ def display_list(sort_by, order):
         display_mode='list')
 
 
-@blueprint.route('/tag/<int:id_tag>/records', methods=['GET', 'POST'])
-@blueprint.invenio_authenticated
-@blueprint.invenio_set_breadcrumb(_('Associated Records'))
-def tag_details(id_tag):
-    """ List of documents attached to this tag """
+# @blueprint.route('/tag/<int:id_tag>/records', methods=['GET', 'POST'])
+# @blueprint.invenio_authenticated
+# @blueprint.invenio_set_breadcrumb(_('Associated Records'))
+# def tag_details(id_tag):
+#     """ List of documents attached to this tag """
 
-    if not id_tag:
-        flash(_('Invalid tag id'), "error")
-        return redirect(url_for('.display_cloud'))
+#     if not id_tag:
+#         flash(_('Invalid tag id'), "error")
+#         return redirect(url_for('.display_cloud'))
 
-    tag = WtgTAG.query.get(id_tag)
+#     tag = WtgTAG.query.get(id_tag)
 
-    if not tag:
-        flash(_('Invalid tag id'), "error")
-        return redirect(url_for('.display_cloud'))
+#     if not tag:
+#         flash(_('Invalid tag id'), "error")
+#         return redirect(url_for('.display_cloud'))
 
-    if tag.id_user != current_user.get_id():
-        flash(_('You are not authorized to view this tag'), "error")
-        return redirect(url_for('.display_cloud'))
+#     if tag.id_user != current_user.get_id():
+#         flash(_('You are not authorized to view this tag'), "error")
+#         return redirect(url_for('.display_cloud'))
 
-    if not tag.records:
-        flash(_('There are no documents tagged with ') + tag.name)
-        return redirect(url_for('.display_cloud'))
+#     if not tag.records:
+#         flash(_('There are no documents tagged with ') + tag.name)
+#         return redirect(url_for('.display_cloud'))
 
-    return response_formated_records(
-        [bibrec.id for bibrec in tag.records],
-        Collection.query.get(1),
-        'hb')
+#     return response_formated_records(
+#         [bibrec.id for bibrec in tag.records],
+#         Collection.query.get(1),
+#         'hb')
 
 
 @blueprint.route('/tokenize/<int:id_bibrec>', methods=['GET', 'POST'])

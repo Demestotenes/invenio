@@ -26,8 +26,8 @@
   {% if record_tags %}
     {% for tag in record_tags %}
     <span class="label label-info">
-      {# <a href="{{ url_for('search.search', p='tags:' + tag['name']) }}"> #}
-      <a href="{{ url_for('webtag.tag_details', id_tag=tag.id) }}">
+      <a href="{{ url_for('search.search', p='tag:"' + tag['name']) + '"' }}">
+      {#<a href="{{ url_for('webtag.tag_details', id_tag=tag.id) }}">#}
         {{ tag['name'] }} ({{ tag.record_count }})
       </a>
     </span>
