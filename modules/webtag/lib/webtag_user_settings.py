@@ -40,12 +40,12 @@ from invenio.webtag_forms import WebTagUserSettingsForm
 
 class WebTagSettings(Settings):
 
-    keys =
-    [
-        'display_tags_private',
-        'display_tags_group',
-        'display_tags_public',
-    ]
+    keys = \
+        [
+            'display_tags_private',
+            'display_tags_group',
+            'display_tags_public',
+        ]
 
     form_builder = WebTagUserSettingsForm
     storage_builder = UserSettingsAttributeStorage('webtag')
