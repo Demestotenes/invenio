@@ -42,10 +42,15 @@ def search_unit_in_tags(search_term):
         [wash_tag_silent(tag_name.replace('"', ''))
          for tag_name in search_term.split(',')]
 
+    if not tag_names:
+        return results
+
+    tag_names_filter = WtgTAG.name.in_(tag_names) if len(tag_names)>1 else WtgTAG.name == tag_names[0]
+
     # Find tags matching the queries names
     tags = WtgTAG.query\
         .filter_by(id_user=current_user.get_id())\
-        .filter(WtgTAG.name.in_(tag_names))\
+        .filter(tag_names_filter)\
         .all()
 
     tag_ids = [tag.id for tag in tags]

@@ -67,6 +67,12 @@ def template_context_function(id_bibrec, id_user):
                 .order_by(WtgTAG.name)\
                 .all()
 
+
+            #.join(UserUsergroup)
+            #.filter(or_(_and( UserUsergroup.id_user == id_user, UserUsergroup.id_group == WtgTAG.id_usergroup), WtgTAG.id_user == id_user,
+
+
+
         # Group tags
         #if user_settings.get('display_tags_group', True):
 

@@ -118,10 +118,23 @@ class WtgTAG(db.Model, Serializable):
                             nullable=False,
                             default=CFG_WEBTAG_ACCESS_OWNER_DEFAULT)
 
+    # Group
+    # equal to 0 for private tags
+    id_usergroup = db.Column(
+        db.Integer(15, unsigned=True),
+        db.ForeignKey(Usergroup.id),
+        server_default='0')
+
+    # Group access rights
+    group_access_rights = db.Column(
+        db.Integer(2, unsigned=True),
+        nullable=False,
+        default=CFG_WEBTAG_ACCESS_GROUP_DEFAULT)
+
     # Access rights of everyone
     public_access_rights = db.Column(db.Integer(2, unsigned=True),
                             nullable=False,
-                            default=CFG_WEBTAG_ACCESS_LEVELS['Nothing'])
+                            default=CFG_WEBTAG_ACCESS_PUBLIC_DEFAULT)
 
     # Visibility in document description
     show_in_description = db.Column(db.Boolean,
@@ -136,6 +149,10 @@ class WtgTAG(db.Model, Serializable):
                                  backref=db.backref('tags_query',
                                                     cascade='all',
                                                     lazy='dynamic'))
+
+    usergroup = db.relationship(
+        Usergroup,
+        backref=db.backref('tags', cascade='all'))
 
     # association proxy of "user_keywords" collection
     # to "keyword" attribute
