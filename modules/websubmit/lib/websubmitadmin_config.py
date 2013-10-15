@@ -27,38 +27,6 @@ from invenio.config import CFG_SITE_URL
 WEBSUBMITADMINURL = "%s/admin/websubmit/websubmitadmin.py" % (CFG_SITE_URL,)
 WEBSUBMITADMINURL_OLD = "%s/admin/websubmit" % (CFG_SITE_URL,)
 
-
-class InvenioWebSubmitAdminWarningIOError(Exception):
-    pass
-
-class InvenioWebSubmitAdminWarningNoUpdate(Exception):
-    """Exception used when a no update was made as a result of an action"""
-    pass
-
-class InvenioWebSubmitAdminWarningDeleteFailed(Exception):
-    pass
-
-class InvenioWebSubmitAdminWarningInsertFailed(Exception):
-    pass
-
-class InvenioWebSubmitAdminWarningTooManyRows(Exception):
-    pass
-
-class InvenioWebSubmitAdminWarningNoRowsFound(Exception):
-    pass
-
-class InvenioWebSubmitAdminWarningReferentialIntegrityViolation(Exception):
-    pass
-
-class InvenioWebSubmitWarning(Exception):
-    """A generic warning for WebSubmit."""
-    def __init__(self, message):
-        """Initialisation."""
-        self.message = message
-    def __str__(self):
-        """String representation."""
-        return repr(self.message)
-
 ## List of the names of functions for which the parameters are files that can be edited.
 ## In particular, this applies to the record creation functions that make use of bibconvert.
 FUNCTIONS_WITH_FILE_PARAMS = ["Make_Record", "Make_Modify_Record"]

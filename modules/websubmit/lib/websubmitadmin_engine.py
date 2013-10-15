@@ -30,8 +30,16 @@ from invenio.access_control_admin import acc_get_all_roles, acc_get_role_users, 
 from invenio.config import CFG_SITE_LANG, CFG_WEBSUBMIT_BIBCONVERTCONFIGDIR
 from invenio.access_control_engine import acc_authorize_action
 from invenio.errorlib import register_exception
-from invenio.websubmitadmin_config import InvenioWebSubmitWarning
 from invenio.messages import gettext_set_language
+from invenio.modules.legacy.submit.errors import \
+    InvenioWebSubmitAdminWarningIOError, \
+    InvenioWebSubmitAdminWarningNoUpdate, \
+    InvenioWebSubmitAdminWarningDeleteFailed, \
+    InvenioWebSubmitAdminWarningInsertFailed, \
+    InvenioWebSubmitAdminWarningTooManyRows, \
+    InvenioWebSubmitAdminWarningNoRowsFound, \
+    InvenioWebSubmitAdminWarningReferentialIntegrityViolation, \
+    InvenioWebSubmitWarning
 
 import invenio.template
 
