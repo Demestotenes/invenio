@@ -26,8 +26,9 @@ __revision__ = "$Id$"
 import os
 import re
 import sre_constants
-from invenio.websubmit_config import InvenioWebSubmitFunctionWarning, \
-                                     CFG_WEBSUBMIT_COPY_MAILS_TO_ADMIN
+from invenio.modules.legacy.submit.errors import \
+    InvenioWebSubmitFunctionWarning
+from invenio.websubmit_config import CFG_WEBSUBMIT_COPY_MAILS_TO_ADMIN
 from invenio.config import CFG_CERN_SITE, \
                            CFG_SITE_NAME, \
                            CFG_SITE_SUPPORT_EMAIL

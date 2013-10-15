@@ -26,7 +26,8 @@ import time
 import pprint
 
 from invenio.dbquery import run_sql
-from invenio.websubmit_config import InvenioWebSubmitFunctionError
+from invenio.modules.legacy.submit.errors import \
+    InvenioWebSubmitFunctionError
 from invenio.websubmit_functions.Retrieve_Data import Get_Field
 from invenio.errorlib import register_exception
 

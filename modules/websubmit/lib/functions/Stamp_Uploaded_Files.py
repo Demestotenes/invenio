@@ -22,8 +22,10 @@ __revision__ = "$Id$"
 
 from invenio.errorlib import register_exception
 from invenio import websubmit_file_stamper
-from invenio.websubmit_config import InvenioWebSubmitFunctionWarning, \
-     InvenioWebSubmitFunctionError, InvenioWebSubmitFileStamperError
+from invenio.modules.legacy.submit.errors import \
+    InvenioWebSubmitFunctionWarning, \
+    InvenioWebSubmitFunctionError, \
+    InvenioWebSubmitFileStamperError
 import os.path, shutil, re
 
 def Stamp_Uploaded_Files(parameters, curdir, form, user_info=None):

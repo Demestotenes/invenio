@@ -29,8 +29,9 @@ import re
 from invenio.websubmit_dblayer import get_simple_approval_status, \
                                       update_approval_request_status
 from invenio.websubmit_functions.Shared_Functions import ParamFromFile
-from invenio.websubmit_config import InvenioWebSubmitFunctionError, \
-                                     InvenioWebSubmitFunctionStop
+from invenio.modules.legacy.submit.errors import \
+    InvenioWebSubmitFunctionError, \
+    InvenioWebSubmitFunctionStop
 from invenio.errorlib import register_exception
 from invenio.config import CFG_SITE_SUPPORT_EMAIL
 

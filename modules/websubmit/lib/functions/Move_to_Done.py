@@ -33,7 +33,7 @@ from invenio.config import \
      CFG_PATH_GZIP, \
      CFG_PATH_TAR, \
      CFG_WEBSUBMIT_STORAGEDIR
-from invenio.websubmit_config import InvenioWebSubmitFunctionError
+from invenio.modules.legacy.submit.errors import InvenioWebSubmitFunctionError
 
 def Move_to_Done(parameters, curdir, form, user_info=None):
     """

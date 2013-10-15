@@ -34,7 +34,8 @@ from optparse import OptionParser
 from invenio.pluginutils import PluginContainer
 from invenio.config import CFG_PYLIBDIR
 from invenio.bibdocfile import decompose_file
-from invenio.websubmit_config import InvenioWebSubmitFileMetadataRuntimeError
+from invenio.modules.legacy.submit.errors import \
+    InvenioWebSubmitFileMetadataRuntimeError
 
 def read_metadata(inputfile, force=None, remote=False,
                   loginpw=None, verbose=0):

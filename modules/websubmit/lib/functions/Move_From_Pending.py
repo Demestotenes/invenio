@@ -27,7 +27,7 @@ __revision__ = "$Id$"
 import os
 
 from invenio.config import CFG_WEBSUBMIT_STORAGEDIR
-from invenio.websubmit_config import InvenioWebSubmitFunctionError
+from invenio.modules.legacy.submit.errors import InvenioWebSubmitFunctionError
 
 def Move_From_Pending(parameters, curdir, form, user_info=None):
     """

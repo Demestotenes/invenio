@@ -22,7 +22,7 @@ __revision__ = "$Id$"
 
 import os
 
-from invenio.websubmit_config import \
+from invenio.modules.legacy.submit.errors import \
      InvenioWebSubmitFunctionStop, \
      InvenioWebSubmitFunctionError
 

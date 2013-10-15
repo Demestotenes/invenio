@@ -27,8 +27,8 @@ import os
 import re
 import sre_constants
 from invenio.websubmit_dblayer import get_approval_request_notes
-from invenio.websubmit_config import InvenioWebSubmitFunctionError, \
-                                     CFG_WEBSUBMIT_COPY_MAILS_TO_ADMIN
+from invenio.websubmit_config import CFG_WEBSUBMIT_COPY_MAILS_TO_ADMIN
+from invenio.modules.legacy.submit.errors import InvenioWebSubmitFunctionError
 from invenio.config import CFG_CERN_SITE, \
                            CFG_SITE_NAME, \
                            CFG_SITE_URL, \

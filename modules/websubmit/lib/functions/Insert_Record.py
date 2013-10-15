@@ -24,7 +24,7 @@ import tempfile
 
 from invenio.config import \
      CFG_TMPDIR
-from invenio.websubmit_config import InvenioWebSubmitFunctionError
+from invenio.modules.legacy.submit.errors import InvenioWebSubmitFunctionError
 from invenio.websubmit_functions.Shared_Functions import ParamFromFile
 from invenio.bibtask import task_low_level_submission, bibtask_allocate_sequenceid
 

@@ -33,7 +33,7 @@ from invenio.textutils import wash_for_xml
 from invenio.config import \
      CFG_BINDIR, \
      CFG_WEBSUBMIT_BIBCONVERTCONFIGDIR
-from invenio.websubmit_config import InvenioWebSubmitFunctionError
+from invenio.modules.legacy.submit.errors import InvenioWebSubmitFunctionError
 
 def Make_Modify_Record(parameters, curdir, form, user_info=None):
     """

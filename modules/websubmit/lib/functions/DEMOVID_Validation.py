@@ -20,7 +20,7 @@
 """
 
 from invenio.bibencode_utils import probe
-from invenio.websubmit_config import InvenioWebSubmitFunctionStop
+from invenio.modules.legacy.submit.errors import InvenioWebSubmitFunctionStop
 import os
 
 __revision__ = "$Id$"

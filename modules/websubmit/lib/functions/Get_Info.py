@@ -32,7 +32,7 @@ __revision__ = "$Id$"
 
 import os
 
-from invenio.websubmit_config import InvenioWebSubmitFunctionStop
+from invenio.modules.legacy.submit.errors import InvenioWebSubmitFunctionStop
 from invenio.websubmit_functions.Retrieve_Data import Get_Field
 
 titlevalue = ""

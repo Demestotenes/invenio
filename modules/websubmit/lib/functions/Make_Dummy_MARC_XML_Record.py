@@ -27,7 +27,7 @@ from invenio.textutils import wash_for_xml
 from invenio.config import \
      CFG_BINDIR, \
      CFG_WEBSUBMIT_BIBCONVERTCONFIGDIR
-from invenio.websubmit_config import InvenioWebSubmitFunctionError
+from invenio.modules.legacy.submit.errors import InvenioWebSubmitFunctionError
 
 CFG_WEBSUBMIT_DUMMY_XML_NAME = "dummy_marcxml_rec"
 

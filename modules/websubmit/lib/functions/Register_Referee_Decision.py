@@ -25,8 +25,9 @@ import cgi
 import os.path
 from invenio.config import CFG_SITE_SUPPORT_EMAIL
 from invenio.websubmit_functions.Shared_Functions import ParamFromFile
-from invenio.websubmit_config import InvenioWebSubmitFunctionError, \
-                                     InvenioWebSubmitFunctionStop
+from invenio.modules.legacy.submit.errors import \
+    InvenioWebSubmitFunctionError, \
+    InvenioWebSubmitFunctionStop
 from invenio.websubmit_dblayer import get_simple_approval_status, \
                                       update_approval_request_status
 

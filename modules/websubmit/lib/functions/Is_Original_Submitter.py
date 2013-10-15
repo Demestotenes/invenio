@@ -33,7 +33,7 @@ __revision__ = "$Id$"
 import re
 import os
 from invenio.access_control_engine import acc_authorize_action
-from invenio.websubmit_config import InvenioWebSubmitFunctionStop
+from invenio.modules.legacy.submit.errors import InvenioWebSubmitFunctionStop
 from invenio.websubmit_functions.Retrieve_Data import Get_Field
 from invenio.websubmit_functions.Shared_Functions import write_file
 

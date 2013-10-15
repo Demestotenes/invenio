@@ -24,7 +24,7 @@ __revision__ = "$Id$"
 
 import cgi
 from invenio.config import CFG_SITE_ADMIN_EMAIL
-from invenio.websubmit_config import \
+from invenio.modules.legacy.submit.errors import \
      InvenioWebSubmitFunctionStop, \
      InvenioWebSubmitFunctionError
 from invenio.search_engine import print_record, record_exists
